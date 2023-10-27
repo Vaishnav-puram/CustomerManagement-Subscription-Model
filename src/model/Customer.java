@@ -15,6 +15,9 @@ public class Customer {
 	private double regAmt;
 	private LocalDate dob;
 	private enumServicePlan plan;
+	public Customer(String email) {
+		this.email=email;
+	}
 	public Customer(String firstName, String lastName, String email, String password, double regAmt,
 			LocalDate dob, enumServicePlan plan) {
 		this.id = idCounter++;
@@ -51,6 +54,9 @@ public class Customer {
 		return plan;
 	}
 	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public void setPlan(enumServicePlan plan) {
 		this.plan = plan;
 	}
