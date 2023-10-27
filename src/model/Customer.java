@@ -50,10 +50,6 @@ public class Customer {
 	public LocalDate getDob() {
 		return dob;
 	}
-	public enumServicePlan getPlan() {
-		return plan;
-	}
-	
 	public void setPassword(String password) {
 		this.password = password;
 	}
