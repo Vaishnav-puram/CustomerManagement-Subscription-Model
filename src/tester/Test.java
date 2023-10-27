@@ -130,7 +130,7 @@ public class Test {
 					password = s.next();
 					cust = CustRepo.credentialsCheck(email, password, customers);
 					System.out.println("Login successful");
-					cust.setPlan(null);
+					cust.setPlan(enumServicePlan.NONE);
 					System.out.println("Unsubscribed");
 					break;
 				case 8:
