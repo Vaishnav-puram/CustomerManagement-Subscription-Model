@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Exceptions.*;
+import model.Admin;
 import model.Customer;
 import model.ServicePlan.enumServicePlan;
 import validations.ValidateInputs;
@@ -13,13 +14,10 @@ import Dao.CustRepo;
 public class Test {
 	public static void main(String[] args)
 			throws InvalidPlanException, InvalidRegtAmt, InvalidEmail, UserNotFound, InvalidCredentials {
-		String firstName;
-		String lastName;
-		String email;
+		String firstName,lastName,name,email,plan;
 		String password, newPassword;
 		double regAmt;
 		LocalDate dob;
-		String plan;
 		ArrayList<Customer> customers = new ArrayList<>();
 		Customer dummy=new Customer("vaishnav", "puram", "a@gmail.com", "123", 1000,LocalDate.now(),enumServicePlan.valueOf("SILVER"));
 		customers.add(dummy);
@@ -82,6 +80,10 @@ public class Test {
 
 					break;
 				case 3:
+					if(customers.isEmpty()) {
+						System.out.println("No users found!");
+						break;
+					}
 					for (Customer c1 : customers) {
 						System.out.println(c1);
 					}
@@ -92,6 +94,17 @@ public class Test {
 					}
 					break;
 				case 5:
+					System.out.println("Enter admin credentials");
+					System.out.println("Enter username:");
+					name=s.next();
+					System.out.println("Enter password:");
+					password=s.next();
+					if(name.equals(Admin.getUsername())&&password.equals(Admin.getPassword()))
+					{
+						System.out.println("Logged in as admin");
+					}else {
+						throw new InvalidCredentials("Authentication failed!");
+					}
 					System.out.println("Enter email :"); {
 					email = s.next();
 					System.out.println(CustRepo.findByEmail(email, customers));
@@ -121,7 +134,17 @@ public class Test {
 					System.out.println("Unsubscribed");
 					break;
 				case 8:
-					//TODO
+					System.out.println("Enter admin credentials");
+					System.out.println("Enter username:");
+					name=s.next();
+					System.out.println("Enter password:");
+					password=s.next();
+					if(name.equals(Admin.getUsername())&&password.equals(Admin.getPassword()))
+					{
+						System.out.println("Logged in as admin");
+					}else {
+						throw new InvalidCredentials("Authentication failed!");
+					}
 					System.out.println("Enter email");
 					cust=CustRepo.findByEmail(s.next(), customers);
 					customers.remove(cust);
