@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import Dao.CustRepo;
 import Exceptions.*;
 import model.Customer;
 import model.ServicePlan.enumServicePlan;
@@ -35,14 +36,15 @@ public class ValidateInputs {
 		}
 		return email;
 	}
-	public static void checkDupEmail(String email,List<Customer> customers) throws DuplicateEmailException {
-		if(customers.contains(email)) { //iterates till the size of the list
+	public static void checkDupEmail(String email,List<Customer> customers) throws DuplicateEmailException, UserNotFound {
+		Customer cust=CustRepo.findByEmail(email, customers);
+		if(customers.contains(cust)) { //iterates till the size of the list
 			throw new DuplicateEmailException("Duplicate email!");
 		}
 	}
 	
 	public static Customer validateAll(String firstName, String lastName, String email, String password, double regAmt,
-			LocalDate dob, String plan,List<Customer> customers) throws InvalidPlanException, InvalidRegtAmt, InvalidEmail, DuplicateEmailException {
+			LocalDate dob, String plan,List<Customer> customers) throws InvalidPlanException, InvalidRegtAmt, InvalidEmail, DuplicateEmailException, UserNotFound {
 		checkDupEmail(email, customers);
 		String validPlan=validatePlan(plan);
 		double validAmt=validateRegAmt(enumServicePlan.valueOf(plan), regAmt);
