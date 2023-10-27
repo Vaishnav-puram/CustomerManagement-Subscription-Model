@@ -35,7 +35,8 @@ public class Test {
 			System.out.println("5.Find Specific Customer");
 			System.out.println("6.Change Password");
 			System.out.println("7.Unsubscribe Plan");
-			System.out.println("8.Exit");
+			System.out.println("8.Delete Customer");
+			System.out.println("9.Exit");
 			choice = s.nextInt();
 			try {
 				switch (choice) {
@@ -120,6 +121,13 @@ public class Test {
 					System.out.println("Unsubscribed");
 					break;
 				case 8:
+					//TODO
+					System.out.println("Enter email");
+					cust=CustRepo.findByEmail(s.next(), customers);
+					customers.remove(cust);
+					System.out.println("Deleted customer");
+					break;
+				case 9:
 					System.out.println("Qutting...");
 					break;
 				default:
@@ -129,7 +137,7 @@ public class Test {
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-		} while (choice != 8);
+		} while (choice != 9);
 		s.close();
 	}
 }
