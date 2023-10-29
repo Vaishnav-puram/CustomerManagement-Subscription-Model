@@ -1,5 +1,8 @@
 package Dao;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 import Exceptions.InvalidCredentials;
@@ -31,5 +34,19 @@ public class CustRepo {
 			throw new InvalidCredentials("Invalid Credentials!");
 		}
 		return c;
+	}
+	public static List<Customer> expiredPlanCust(List<Customer> customers){
+		List<Customer> custs=new ArrayList<>();
+		for(Customer cst:customers) {
+			Period p=Period.between(cst.getLastSubDate(),LocalDate.now());
+			if(p.getMonths()>=3) {
+//				System.out.println(cst);
+				custs.add(cst);
+			}
+		}
+		return custs;
+	}
+	public static void removeCustomers(List<Customer> custs,List<Customer> customers) {
+		customers.removeAll(custs);
 	}
 }
