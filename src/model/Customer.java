@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import model.ServicePlan.enumServicePlan;
 
-public class Customer {
+public class Customer implements Comparable<Customer>{
 	private int id;
 	private static int idCounter=0;
 	private String firstName;
@@ -14,12 +14,13 @@ public class Customer {
 	private String password;
 	private double regAmt;
 	private LocalDate dob;
+	private LocalDate lastSubDate ;
 	private enumServicePlan plan;
 	public Customer(String email) {
 		this.email=email;
 	}
 	public Customer(String firstName, String lastName, String email, String password, double regAmt,
-			LocalDate dob, enumServicePlan plan) {
+					LocalDate dob, enumServicePlan plan) {
 		this.id = idCounter++;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -28,6 +29,27 @@ public class Customer {
 		this.regAmt = regAmt;
 		this.dob = dob;
 		this.plan = plan;
+		subDateInitialize();
+	}
+	public Customer(String firstName, String lastName, String email, String password, double regAmt,
+					LocalDate dob, enumServicePlan plan, LocalDate lastSubDate ) {
+		this.id = idCounter++;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.regAmt = regAmt;
+		this.dob = dob;
+		this.plan = plan;
+		this.lastSubDate=lastSubDate;
+	}
+	private void subDateInitialize() {
+		if(this.plan.toString().equals("NONE")) {
+			this.lastSubDate=null;
+		}else {
+			this.lastSubDate=LocalDate.now();
+		}
+
 	}
 	public int getId() {
 		return id;
@@ -50,11 +72,17 @@ public class Customer {
 	public LocalDate getDob() {
 		return dob;
 	}
+	public LocalDate getLastSubDate() {
+		return lastSubDate;
+	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	public void setPlan(enumServicePlan plan) {
 		this.plan = plan;
+	}
+	public int getCharges() {
+		return this.plan.getPlan();
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -68,6 +96,10 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", regAmt=" + regAmt + ", dob=" + dob + ", plan=" + plan + " PlanCharges :"+this.plan.getPlan()+"]";
+				+ ", password=" + password + ", regAmt=" + regAmt + ", dob=" + dob + ", plan=" + plan + " PlanCharges :"+this.plan.getPlan()+"Last Subscribed date = "+this.lastSubDate+"]";
+	}
+	@Override
+	public int compareTo(Customer c1) {
+		return this.dob.compareTo(c1.dob);
 	}
 }
